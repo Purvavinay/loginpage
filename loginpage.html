@@ -1,1 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTECH FITNESS WALA</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #0d1117; /* GitHub dark mode background */
+      color: white;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 30px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* Login box */
+    .form-box {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .form-box h2 {
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+    }
+
+    .form-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .form-box button {
+      width: 100%;
+      padding: 12px;
+      background: #238636; /* GitHub green */
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+    }
+
+    .form-box button:hover {
+      background: #2ea043;
+    }
+
+    .form-box .links {
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .form-box .links a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+
+    /* Star / asteroid animation */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Canvas background -->
+  <canvas id="stars"></canvas>
+
+  <!-- Headline -->
+  <h1>TRANSFORMING JOURNEYS WITH <br> <b>BTECH FITNESS WALA</b></h1>
+
+  <!-- Login Box -->
+  <div class="form-box">
+    <h2>Login to Your Account</h2>
+    <form>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <div class="links">
+      <p>New here? <a href="#">Create an Account</a></p>
+      <p><a href="#">Forgot Password?</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Starfield animation
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let stars = [];
+    let numStars = 200;
+
+    function Star() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.z = Math.random() * canvas.width;
+
+      this.move = function() {
+        this.z -= 2;
+        if (this.z <= 0) {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.z = canvas.width;
+        }
+      };
+
+      this.show = function() {
+        let x = (this.x - canvas.width / 2) * (canvas.width / this.z);
+        let y = (this.y - canvas.height / 2) * (canvas.width / this.z);
+        let radius = canvas.width / this.z;
+        ctx.beginPath();
+        ctx.arc(x + canvas.width / 2, y + canvas.height / 2, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = "white";
+        ctx.fill();
+      };
+    }
+
+    for (let i = 0; i < numStars; i++) {
+      stars.push(new Star());
+    }
+
+    function animate() {
+      ctx.fillStyle = "#0d1117";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < numStars; i++) {
+        stars[i].show();
+        stars[i].move();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Resize event
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
 
